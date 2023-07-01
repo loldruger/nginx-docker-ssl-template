@@ -1,0 +1,78 @@
+version: '3'
+
+services:
+  nginx:
+    container_name: nginx
+    image: nginx
+    restart: always
+    ports:
+      - "80:80/tcp"
+      - "443:443"
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - server
+    networks:
+      - backtier
+
+  pg-admin:
+    container_name: pgadmin4
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: example@example.com
+      PGADMIN_DEFAULT_PASSWORD: example_password
+      PGADMIN_LISTEN_PORT: 9090
+    ports:
+      - "8070:9090"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - backtier
+      
+  postgres:
+    container_name: postgres
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backtier
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    restart: always
+    networks:
+      - backtier
+
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgres://postgres:example_password@postgres/example_db
+      REDIS_URL: redis://redis
+    ports:
+      - "8080:3000"
+    volumes:
+      - ./backend:/home/work
+      - rust_data:/root/.cargo/registry
+    links:
+      - postgres
+      - redis
+    networks:
+      - backtier
+
+volumes:
+  pgadmin_data:
+  postgres_data:
+  rust_data:
+  
+networks:
+  backtier:
+    # driver: bridge
+    # driver_opts:
+    #   com.docker.network.driver.mtu: 1450
