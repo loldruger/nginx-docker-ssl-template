@@ -92,15 +92,15 @@ services:
         echo "--------------------------------------------------------------------------------------------"
         echo 
 
-        touch /etc/nginx/conf.d/$$domain.conf
+        [ -f /etc/nginx/conf.d/$$domain.conf ] || touch /etc/nginx/conf.d/$$domain.conf
 
         for domain in $$domains; do
           echo [-] $$domain \(keysize: $$keysize\)
           echo
           [ -d "/etc/letsencrypt/staging/$$domain" ] || mkdir -p /etc/letsencrypt/staging
-          
           [ -d "/etc/letsencrypt/renewal/$$domain" ] || mkdir -p /etc/letsencrypt/renewal
           [ -d "/etc/letsencrypt/live/$$domain" ] || mkdir -p /etc/letsencrypt/live
+
           if [ "$$staging" = "false" ] && [ ! -f "/etc/letsencrypt/live/$$domain/.certbot" ]; then
             echo [-] $$domain staging false
             certbot certonly -v --webroot -w /var/www/certbot -d $$domain --email $$email --rsa-key-size $$keysize --agree-tos --force-renewal
@@ -117,9 +117,6 @@ services:
             echo [-] --- complete --- $$domain
             sleep 5s
           fi
-          
-          sleep 10s
-
           
           echo "
           server {
@@ -158,8 +155,6 @@ services:
 
         done
 
-        echo [-] sleep 10s
-        sleep 10s
         echo "--------------------------------------------------------------------------------------------"
         echo [-] certbot init renew timer
         echo "--------------------------------------------------------------------------------------------"
@@ -171,7 +166,7 @@ services:
           echo [-] certbot renew
           [ -d "/etc/letsencrypt/renewal" ] && ls -l /etc/letsencrypt/renewal
           certbot renew
-          [ -f "/etc/letsencrypt/live/$$domain/.certbot" ] || mkdir /etc/letsencrypt/live/$$domain && touch /etc/letsencrypt/live/$$domain/.certbot
+          [ -f "/etc/letsencrypt/live/$$domain/.certbot" ] || touch /etc/letsencrypt/live/$$domain/.certbot
           echo [-] sleep 12h
           sleep 12h
         done
