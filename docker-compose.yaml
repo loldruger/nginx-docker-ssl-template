@@ -183,8 +183,8 @@ services:
     container_name: pgadmin4
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: example@example.com
-      PGADMIN_DEFAULT_PASSWORD: example_password
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
       PGADMIN_LISTEN_PORT: 9090
     ports:
       - "8070:9090"
@@ -198,7 +198,7 @@ services:
     image: postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: example_password
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -217,7 +217,7 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     environment:
-      DATABASE_URL: postgres://postgres:example_password@postgres/example_db
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@postgres/${POSTGRES_DATABASE}
       REDIS_URL: redis://redis
     ports:
       - "8080:3000"
