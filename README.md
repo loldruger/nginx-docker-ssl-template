@@ -2,7 +2,7 @@
 
 These shell scripts in docker-compose.yaml are from https://gist.github.com/hp8wvvvgnj6asjm7/f13551ec0adfbda7bc5c3a3f9fa3a3a9
 
-this template runs on `tokio`, `sqlx`, `axum` in `Rust programming language` with `nginx`, `postgres` and `redis`.
+this template runs on `tokio`, `sqlx`, `axum` in `Rust programming language` with `nginx`, `postgres` and `redis`, over `Let's Encrypt SSL`
 
 you can easily replace backend system, currently running on Rust axum, with whatever you want!
 
