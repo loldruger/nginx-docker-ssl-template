@@ -9,9 +9,9 @@ services:
       - "80:80/tcp"
       - "443:443"
     volumes:
-      - ./proxy/nginx.conf:/etc/nginx/nginx.conf
+      - ./data/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
-      - server
+      - backend
     networks:
       - backtier
 
@@ -73,6 +73,6 @@ volumes:
   
 networks:
   backtier:
-    # driver: bridge
-    # driver_opts:
-    #   com.docker.network.driver.mtu: 1450
+    driver: bridge
+    driver_opts:
+      com.docker.network.driver.mtu: 1450
