@@ -15,7 +15,7 @@ you can easily replace backend system, currently running on Rust axum, with what
  4. 
 and you just enter `$ docker compose up` on your terminal. ~~it's all automatically set up~~
 
-after first `docker compose up`, you should `docker compose restart` to reload `nginx service`..
+you should `docker compose restart` to reload `nginx service`..
 
 # TroubleShooting
 
