@@ -60,9 +60,9 @@ services:
     volumes:
       - ./backend:/home/work
       - rust_data:/root/.cargo/registry
-    links:
-      - postgres
-      - redis
+    # links:
+    #   - postgres
+    #   - redis
     networks:
       - backtier
 
@@ -73,6 +73,6 @@ volumes:
   
 networks:
   backtier:
-    driver: bridge
-    driver_opts:
-      com.docker.network.driver.mtu: 1450
+    # driver: bridge
+    # driver_opts:
+    #   com.docker.network.driver.mtu: 1450
