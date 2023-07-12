@@ -14,6 +14,6 @@ you can easily replace backend system currently running on Rust axum with whatev
  
 and you just enter `$ docker compose up` on your terminal. it's all automatically set up
 
-# Trouble shooting
+# TroubleShooting
 
 if you get troubles on internet connection in container, uncomment network set up bottom of the `docker-compose.yaml` file to fit the MTU length 1450 or else. 
