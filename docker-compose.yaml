@@ -237,6 +237,6 @@ volumes:
   
 networks:
   backtier:
-    driver: bridge
-    driver_opts:
-      com.docker.network.driver.mtu: 1450
+   # driver: bridge
+   # driver_opts:
+   #   com.docker.network.driver.mtu: 1450
