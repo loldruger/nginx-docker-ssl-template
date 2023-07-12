@@ -4,7 +4,7 @@ These shell scripts in docker-compose.yaml are from https://gist.github.com/hp8w
 
 this template runs on `tokio`, `sqlx`, `axum` in `Rust programming language` with `nginx`, `postgres` and `redis`.
 
-you can easily replace backend system currently running on Rust axum with whatever you want!
+you can easily replace backend system, currently running on Rust axum, with whatever you want!
 
 # Getting started
 
