@@ -60,9 +60,7 @@ services:
         while :
         do
           for domain in $$domains; do
-            [ -d "/etc/letsencrypt/live/$$domain" ] && ls /etc/letsencrypt/live/$$domain
-            [ -f "/etc/letsencrypt/live/$$domain/.certbot" ] && nginx -s reload
-            [ -f "/etc/letsencrypt/live/$$domain/.certbot" ] && rm /etc/letsencrypt/live/$$domain/.certbot
+            [ ! -f "/etc/letsencrypt/live/$$domain/.certbot" ] && nginx -s reload
           done
           sleep 30s
         done & nginx -g "daemon off;"
@@ -104,7 +102,7 @@ services:
           if [ "$$staging" = "false" ] && [ ! -f "/etc/letsencrypt/live/$$domain/.certbot" ]; then
             echo [-] $$domain staging false
             certbot certonly -v --webroot -w /var/www/certbot -d $$domain --email $$email --rsa-key-size $$keysize --agree-tos --force-renewal
-            [ -f "/etc/letsencrypt/live/$$domain/.certbot" ] || touch /etc/letsencrypt/live/$$domain/.certbot
+            touch /etc/letsencrypt/live/$$domain/.certbot
             sed -i 's/staging/live/g' /etc/nginx/conf.d/$$domain.conf
             echo [-] --- complete --- $$domain
             sleep 5s
@@ -112,10 +110,14 @@ services:
           if [ "$$staging" = "true" ] && [ ! -f "/etc/letsencrypt/live/$$domain/.certbot" ]; then
             echo [-] $$domain staging true
             certbot certonly -v --staging --webroot -w /var/www/certbot -d $$domain --email $$email --rsa-key-size $$keysize --agree-tos --force-renewal
-            [ -f "/etc/letsencrypt/live/$$domain/.certbot" ] || touch /etc/letsencrypt/live/$$domain/.certbot
+            touch /etc/letsencrypt/live/$$domain/.certbot
             sed -i 's/staging/live/g' /etc/nginx/conf.d/$$domain.conf
             echo [-] --- complete --- $$domain
             sleep 5s
+          fi
+          
+          if [ -f /etc/nginx/conf.d/$$domain ]; then 
+            rm /etc/nginx/conf.d/$$domain
           fi
           
           echo "
@@ -146,7 +148,7 @@ services:
             ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
             location / {
-                # proxy_pass  http://$$domains;
+                proxy_pass  http://api;
                 # proxy_set_header    Host                $http_host;
                 # proxy_set_header    X-Real-IP           $remote_addr;
                 # proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
@@ -232,6 +234,6 @@ volumes:
   
 networks:
   backtier:
-   # driver: bridge
-   # driver_opts:
-   #   com.docker.network.driver.mtu: 1450
+  #  driver: bridge
+  #  driver_opts:
+  #    com.docker.network.driver.mtu: 1450
