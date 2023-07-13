@@ -13,7 +13,11 @@ you can easily replace backend system, currently running on Rust axum, with what
  2. Set .env file to yours
  3. Change server_name `example.org` in `/data/etc/nginx/conf.d/app.conf` to your own domain which matches DOMAINS in second step.
 
-and you just enter `$ docker compose up` on your terminal. it's all automatically set up
+and you just enter 
+```
+$ docker compose up
+```
+on your terminal. it's all automatically set up
 
 if you get successful result but cannot access through your domain,  `$ docker compose restart` to reload `nginx service`
 
