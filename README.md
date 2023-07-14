@@ -22,5 +22,7 @@ on your terminal. it's all automatically set up
 if you get successful result but cannot access through your domain,  `$ docker compose restart` to reload `nginx service`
 
 # TroubleShooting
+ 1. If you get an error at certbot phase, like `Certbot failed to authenticate some domains... Fetching <url> Connection refused`, Check if the file `/data/etc/letsencrypt/ssl-dhparams.pem` is 0 Bytes.
+if so, clean up your docker network and data files, then follow the second step of fitting MTU length.
 
-if you get troubles on internet connection in container, uncomment network set up bottom of the `docker-compose.yaml` file to fit the MTU length 1450 or else. 
+ 2. If you get troubles on internet connection in container, uncomment network set up bottom of the `docker-compose.yaml` file to fit the MTU length 1450 or else. 
