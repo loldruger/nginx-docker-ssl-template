@@ -22,7 +22,7 @@ async fn main() -> Result<(), sqlx::Error> {
     let app = Router::new().route("/", get(handler));
 
     // run it
-    let addr = SocketAddr::from(([0, 0, 0, 0], 3000));
+    let addr = SocketAddr::from(([0, 0, 0, 0], 8080));
     println!("listening on {}", addr);
     axum::Server::bind(&addr)
         .serve(app.into_make_service())
