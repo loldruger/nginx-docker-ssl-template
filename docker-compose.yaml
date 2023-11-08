@@ -215,8 +215,6 @@ services:
     environment:
       DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@postgres/${POSTGRES_DATABASE}
       REDIS_URL: redis://redis
-    ports:
-      - "8080:3000"
     volumes:
       - ./backend:/home/work
       - rust_data:/root/.cargo/registry
