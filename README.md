@@ -12,6 +12,21 @@ you can easily replace backend system, currently running on Rust axum, with what
  1. You need to have DNS setup
  2. Set .env file to yours
 
+.env:
+```
+#certbot
+STAGING=true #if you are on testing, keep it true
+EMAIL=example@example.org 
+DOMAINS=project-1.com #project-1.com project-2.com...
+
+#postgres && pg-admin
+POSTGRES_DATABASE=example_db
+POSTGRES_PASSWORD=example_password
+
+PGADMIN_DEFAULT_EMAIL=example@example.org
+PGADMIN_DEFAULT_PASSWORD=example_password
+```
+
 and you just enter 
 ```
 $ docker compose up
