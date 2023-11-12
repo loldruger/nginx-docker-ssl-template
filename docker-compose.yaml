@@ -30,22 +30,24 @@ services:
         echo 
         [ ! -d "/etc/letsencrypt" ] && mkdir /etc/letsencrypt
         for domain in $$domains; do
-          echo "
-          server {
-            listen 80;
-            server_name $$domain;
-            server_tokens off;
-            http2 on;
-            
-            location /.well-known/acme-challenge/ {
-                root /var/www/certbot;
-            }
+          if [ ! -f "/etc/nginx/conf.d/$$domain.conf" ]; then
+            echo "
+            server {
+              listen 80;
+              server_name $$domain;
+              server_tokens off;
+              http2 on;
+              
+              location /.well-known/acme-challenge/ {
+                  root /var/www/certbot;
+              }
 
-            location / {
-                return 301 https://$host$request_uri;
+              location / {
+                  return 301 https://$host$request_uri;
+              }
             }
-          }
-          " > /etc/nginx/conf.d/$$domain.conf
+            " > /etc/nginx/conf.d/$$domain.conf
+          fi
 
           echo [-] $$domain \(keysize: $$keysize\)
           echo
