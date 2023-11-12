@@ -16,7 +16,7 @@ and you just enter
 ```
 $ docker compose up
 ```
-on your terminal. it's all automatically set up
+on your terminal. it's all automatically set up. And it now supports multiple domains certification!
 
 if you get successful result but cannot access through your domain,  `$ docker compose restart` to reload `nginx service`
 
