@@ -13,7 +13,7 @@ you can easily replace backend system, currently running on Rust axum, with what
  2. Set .env file to yours
 
 .env:
-```
+```python
 #certbot
 STAGING=true #if you are on testing, keep it true
 EMAIL=example@example.org 
