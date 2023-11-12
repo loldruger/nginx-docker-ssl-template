@@ -28,10 +28,25 @@ services:
         [-] nginx init
         echo "--------------------------------------------------------------------------------------------"
         echo 
-        ls -la /etc/nginx/conf.d
         [ ! -d "/etc/letsencrypt" ] && mkdir /etc/letsencrypt
         for domain in $$domains; do
-        
+          echo "
+          server {
+            listen 80;
+            server_name $$domain;
+            server_tokens off;
+            http2 on;
+            
+            location /.well-known/acme-challenge/ {
+                root /var/www/certbot;
+            }
+
+            location / {
+                return 301 https://$host$request_uri;
+            }
+          }
+          " > /etc/nginx/conf.d/$$domain.conf
+
           echo [-] $$domain \(keysize: $$keysize\)
           echo
           
@@ -45,12 +60,10 @@ services:
         done
         if [ ! -f "/etc/letsencrypt/ssl-dhparams.pem" ]; then
           curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/certbot/ssl-dhparams.pem > "/etc/letsencrypt/ssl-dhparams.pem"
-          ls /etc/letsencrypt
           echo 
         fi
         if [ ! -f "/etc/nginx/options-ssl-nginx.conf" ]; then
           curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf > "/etc/nginx/options-ssl-nginx.conf"
-          ls /etc/nginx
           echo 
         fi
         echo "--------------------------------------------------------------------------------------------"
@@ -142,7 +155,7 @@ services:
             http2 on;
 
             ssl_certificate /etc/letsencrypt/live/$$domain/fullchain.pem;
-            ssl_certificate_key /etc/letsencrypt/live/$$domains/privkey.pem;
+            ssl_certificate_key /etc/letsencrypt/live/$$domain/privkey.pem;
             include /etc/nginx/options-ssl-nginx.conf;
             ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
