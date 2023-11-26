@@ -83,7 +83,7 @@ services:
   certbot:
     container_name: certbot
     image: certbot/certbot:latest
-    restart: "no"
+    restart: always
     volumes:
       - ./data/var/www/certbot:/var/www/certbot
       - ./data/etc/letsencrypt:/etc/letsencrypt
