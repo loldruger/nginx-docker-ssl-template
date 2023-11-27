@@ -222,28 +222,35 @@ services:
     networks:
       - backtier
 
-  backend:
+  backend_api:
     container_name: backend
     build:
-      context: ./backend
+      context: ./services/backend_api
       dockerfile: Dockerfile
     environment:
       DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@postgres/${POSTGRES_DATABASE}
       REDIS_URL: redis://redis
     volumes:
-      - ./backend:/home/work
-      - rust_data:/root/.cargo/registry
-    # links:
-    #   - postgres
-    #   - redis
+      - ./services/backend_api:/home/work
+      - backend_api_rust_data:/root/.cargo/registry
     networks:
       - backtier
 
+  backend_web:
+  build:
+    context: ./services/backend_web
+    dockerfile: Dockerfile
+  volumes:
+    - ./services/backend_api:/home/work
+    - backend_web_rust_data:/root/.cargo/registry
+  networks:
+    - backtier
 volumes:
   pgadmin_data:
   postgres_data:
-  rust_data:
-  
+  backend_api_rust_data:
+  backend_web_rust_data:
+
 networks:
   backtier:
   #  driver: bridge
