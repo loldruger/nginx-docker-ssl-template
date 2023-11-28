@@ -100,10 +100,10 @@ services:
     - rust_data:/root/.cargo/registry
   networks:
     - backtier
+
 volumes:
   pgadmin_data:
   postgres_data:
-  rust_data:
   rust_data:
 
 networks:
