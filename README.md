@@ -29,7 +29,7 @@ PGADMIN_DEFAULT_PASSWORD=example_password
 
 and you just enter 
 ```
-$ docker compose up
+$ sh init.sh
 ```
 on your terminal. it's all automatically set up. And it now supports multiple domains certification!
 
