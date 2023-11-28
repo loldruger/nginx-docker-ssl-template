@@ -87,7 +87,7 @@ services:
       REDIS_URL: redis://redis
     volumes:
       - ./services/backend_api:/home/work
-      - backend_api_rust_data:/root/.cargo/registry
+      - rust_data:/root/.cargo/registry
     networks:
       - backtier
 
@@ -97,14 +97,14 @@ services:
     dockerfile: Dockerfile
   volumes:
     - ./services/backend_api:/home/work
-    - backend_web_rust_data:/root/.cargo/registry
+    - rust_data:/root/.cargo/registry
   networks:
     - backtier
 volumes:
   pgadmin_data:
   postgres_data:
-  backend_api_rust_data:
-  backend_web_rust_data:
+  rust_data:
+  rust_data:
 
 networks:
   backtier:
