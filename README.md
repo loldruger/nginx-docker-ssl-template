@@ -25,9 +25,14 @@ PGADMIN_DEFAULT_EMAIL=example@example.org
 PGADMIN_DEFAULT_PASSWORD=example_password
 ```
 
-and you just enter 
+ 3. Generate nginx configuration files for each `DOMAINS` to execute
+ ```
+ $ sh init.sh
+ ```
+
+and finally, Enter this command:
 ```
-$ sh init.sh
+$ sh deploy.sh
 ```
 on your terminal. it will be all automatically set up. And it now supports multiple domains certification!
 

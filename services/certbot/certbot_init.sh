@@ -32,46 +32,6 @@ if [ "$staging" = "true" ] && [ ! -f "/etc/letsencrypt/live/$domain/.certbot" ];
     echo "[-] --- complete --- $domain"
     sleep 5s
 fi
-
-if [ -f /etc/nginx/conf.d/$domain ]; then 
-    rm /etc/nginx/conf.d/$domain
-fi
-
-echo "
-server {
-    listen 80;
-    server_name $domain;
-    server_tokens off;
-    http2 on;
-    
-    location /.well-known/acme-challenge/ {
-        root /var/www/certbot;
-    }
-
-    location / {
-        return 301 https://$host$request_uri;
-    }
-}
-
-server { 
-    listen 443 ssl;
-    server_name $domain;
-    server_tokens off;
-    http2 on;
-
-    ssl_certificate /etc/letsencrypt/live/$domain/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/$domain/privkey.pem;
-    include /etc/nginx/options-ssl-nginx.conf;
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
-
-    location / {
-        proxy_pass  http://api;
-        # proxy_set_header    Host                $http_host;
-        # proxy_set_header    X-Real-IP           $remote_addr;
-        # proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
-    }
-}" > /etc/nginx/conf.d/$domain.conf
-
 done
 
 echo "--------------------------------------------------------------------------------------------"

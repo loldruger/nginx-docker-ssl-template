@@ -92,14 +92,15 @@ services:
       - backtier
 
   backend_web:
-  build:
-    context: ./services/backend_web
-    dockerfile: Dockerfile
-  volumes:
-    - ./services/backend_api:/home/work
-    - rust_data:/root/.cargo/registry
-  networks:
-    - backtier
+    container_name: backend_web
+    build:
+      context: ./services/backend_web
+      dockerfile: Dockerfile
+    volumes:
+      - ./services/backend_api:/home/work
+      - rust_data:/root/.cargo/registry
+    networks:
+      - backtier
 
 volumes:
   pgadmin_data:
