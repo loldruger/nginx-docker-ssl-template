@@ -13,22 +13,25 @@ you can easily replace backend system, currently running on Rust axum, with what
 .env:
 ```python
 #certbot
-STAGING=true #if you are on testing, keep it true
-EMAIL=example@example.org 
-DOMAINS=project-1.com #project-1.com project-2.com...
+STAGING="true" #if you are on testing, keep it true
+EMAIL="example@example.org"
+DOMAINS="project-1.com" #project-1.com project-2.com...
 
 #postgres && pg-admin
-POSTGRES_DATABASE=example_db
-POSTGRES_PASSWORD=example_password
+POSTGRES_DATABASE="example_db"
+POSTGRES_PASSWORD="example_password"
 
-PGADMIN_DEFAULT_EMAIL=example@example.org
-PGADMIN_DEFAULT_PASSWORD=example_password
+PGADMIN_DEFAULT_EMAIL="example@example.org"
+PGADMIN_DEFAULT_PASSWORD="example_password"
 ```
 
- 3. Generate nginx configuration files for each `DOMAINS` to execute
+ 3. Generate nginx configuration template files for each `DOMAINS` by executing
  ```
  $ sh init.sh
  ```
+Which yields `domain.conf.template` files into `/data/etc/nginx/conf.d`
+
+ 4. Modify the nginx configuration template files to what you need. And rename them without the `.template` extension.
 
 and finally, Enter this command:
 ```
