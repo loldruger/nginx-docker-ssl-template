@@ -39,7 +39,7 @@ $ sh deploy.sh
 ```
 on your terminal. it will be all automatically set up. And it now supports multiple domains certification!
 
-if you get successful result but cannot access through your domain,  `$ docker compose restart` to reload `nginx service`
+if you get successful result but cannot access through your domain,  `$ docker compose restart nginx` to reload `nginx service`
 
 # TroubleShooting
  1. If you get an error at certbot phase, like `Certbot failed to authenticate some domains... Fetching <url> Connection refused`, Check if the file `/data/etc/letsencrypt/ssl-dhparams.pem` is 0 Bytes.
