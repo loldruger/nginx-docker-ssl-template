@@ -4,7 +4,7 @@ this template runs on `tokio`, `sqlx`, `axum` in `Rust programming language` wit
 
 you can easily replace backend system, currently running on Rust axum, with whatever you want!
 
-# Getting started
+# Getting Started
 
 ## Prerequisite
  1. You need to have DNS setup
@@ -13,7 +13,7 @@ you can easily replace backend system, currently running on Rust axum, with what
 .env:
 ```python
 #certbot
-STAGING="true" #if you are on testing, keep it true
+STAGING="true" #if you are testing, keep it true
 EMAIL="example@example.org"
 DOMAINS="project-1.com" #project-1.com project-2.com...
 
