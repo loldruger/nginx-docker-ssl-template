@@ -95,7 +95,7 @@ services:
       context: ./services/backend_web
       dockerfile: Dockerfile
     volumes:
-      - ./services/backend_api:/home/work
+      - ./services/backend_web:/home/work
       - rust_data:/root/.cargo/registry
     networks:
       - backtier
