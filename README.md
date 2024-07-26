@@ -7,7 +7,7 @@ you can easily replace backend system, currently running on Rust axum, with what
 # Getting Started
 
 ## Prerequisite
- 1. You need to have DNS setup
+ 1. You need to setup DNS config
  2. Set .env file to yours
 
 .env:
