@@ -77,6 +77,8 @@ services:
 
   backend_api:
     container_name: backend
+    ports:
+      - "8080:8080"
     build:
       context: ./services/backend_api
       dockerfile: Dockerfile
@@ -91,6 +93,8 @@ services:
 
   backend_web:
     container_name: backend_web
+    ports:
+      - "8081:8081"
     build:
       context: ./services/backend_web
       dockerfile: Dockerfile
