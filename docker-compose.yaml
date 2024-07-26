@@ -20,7 +20,7 @@ services:
       - ./data/etc/letsencrypt:/etc/letsencrypt
       - ./services/nginx/nginx_init.sh:/nginx_init.sh
     depends_on:
-      - backend
+      - backend_api
     networks:
       - backtier
     entrypoint: "/nginx_init.sh"
