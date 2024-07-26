@@ -22,7 +22,7 @@ async fn main() -> Result<(), sqlx::Error> {
     let app = Router::new().route("/", get(handler));
 
     // run it
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:8081")
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:8080")
         .await
         .unwrap();
     println!("listening on {}", listener.local_addr().unwrap());
