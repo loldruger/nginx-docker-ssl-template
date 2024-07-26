@@ -22,12 +22,12 @@ async fn main() -> Result<(), sqlx::Error> {
     let app = Router::new().route("/", get(handler));
 
     // run it
-    let addr = SocketAddr::from(([0, 0, 0, 0], 8080));
-    println!("listening on {}", addr);
-    axum::Server::bind(&addr)
-        .serve(app.into_make_service())
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:8081")
         .await
         .unwrap();
+    println!("listening on {}", listener.local_addr().unwrap());
+    axum::serve(listener, app).await.unwrap();
+
 
     Ok(())
 }
