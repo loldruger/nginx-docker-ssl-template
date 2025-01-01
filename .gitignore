@@ -1,1 +1,2 @@
 /data/etc/letsencrypt
+/data/var/www/certbot/
