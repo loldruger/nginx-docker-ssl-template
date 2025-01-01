@@ -31,6 +31,7 @@ services:
     restart: always
     volumes:
       - ./data/var/www/certbot:/var/www/certbot
+      - ./data/var/www/certbot:/var/log/letsencrypt
       - ./data/etc/letsencrypt:/etc/letsencrypt
       - ./data/etc/nginx/conf.d:/etc/nginx/conf.d
       - ./services/certbot/certbot_init.sh:/certbot_init.sh
