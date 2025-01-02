@@ -1,4 +1,17 @@
 services:
+  init:
+    container_name: init
+    build: 
+      context: ./services/init
+      dockerfile: Dockerfile
+    volumes:
+      - ./docker-compose.yaml:/app/docker-compose.yaml
+      - ./data/etc/nginx/conf.d/:/app/data/etc/nginx/conf.d/
+      - .:/app
+    user: root
+    working_dir: /app
+    env_file: .env
+
   nginx:
     container_name: nginx
     build:
@@ -14,11 +27,16 @@ services:
     volumes:
       - ./data/etc/nginx/conf.d:/etc/nginx/conf.d
       - ./data/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./data/var/www/certbot:/var/www/certbot
       - ./data/etc/letsencrypt:/etc/letsencrypt
+      - ./data/var/www/certbot:/var/www/certbot
       - ./services/nginx/nginx_init.sh:/nginx_init.sh
     depends_on:
-      - backend_api
+      init:
+        condition: service_completed_successfully
+      backend_api:
+        condition: service_started
+      backend_web:
+        condition: service_started
     networks:
       - backtier
     entrypoint: "/nginx_init.sh"
@@ -48,6 +66,7 @@ services:
     container_name: pgadmin4
     image: dpage/pgadmin4
     environment:
+      VIRTUAL_HOST: ${PGADMIN_DOMAIN}
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
       PGADMIN_LISTEN_PORT: 9090
@@ -77,13 +96,14 @@ services:
       - backtier
 
   backend_api:
-    container_name: backend
+    container_name: backend_api
     ports:
       - "8080:8080"
     build:
       context: ./services/backend_api
       dockerfile: Dockerfile
     environment:
+      VIRTUAL_HOST: ${API_DOMAIN}
       DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@postgres/${POSTGRES_DATABASE}
       REDIS_URL: redis://redis
     volumes:
@@ -99,6 +119,8 @@ services:
     build:
       context: ./services/backend_web
       dockerfile: Dockerfile
+    environment:
+      VIRTUAL_HOST: ${WEB_DOMAIN}
     volumes:
       - ./services/backend_web:/home/work
       - rust_data:/root/.cargo/registry
