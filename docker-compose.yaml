@@ -1,15 +1,15 @@
 services:
-  init:
-    container_name: init
+  ssl:
+    container_name: ssl
     build: 
-      context: ./services/init
+      context: ./services/ssl
       dockerfile: Dockerfile
     volumes:
-      - ./docker-compose.yaml:/app/docker-compose.yaml
-      - ./data/etc/nginx/conf.d/:/app/data/etc/nginx/conf.d/
-      - .:/app
+      - ./docker-compose.yaml:/mount/docker-compose.yaml
+      - ./mount/etc/nginx/conf.d/:/mount/etc/nginx/conf.d/
+      - .:/mount
     user: root
-    working_dir: /app
+    working_dir: /mount
     env_file: .env
 
   nginx:
@@ -25,11 +25,10 @@ services:
       keysize: 4096
       domains: ${DOMAINS}
     volumes:
-      - ./data/etc/nginx/conf.d:/etc/nginx/conf.d
-      - ./data/etc/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./data/etc/letsencrypt:/etc/letsencrypt
-      - ./data/var/www/certbot:/var/www/certbot
-      - ./services/nginx/nginx_init.sh:/nginx_init.sh
+      - ./mount/etc/nginx:/etc/nginx
+      - ./mount/etc/letsencrypt:/etc/letsencrypt
+      - ./mount/var/www/certbot:/var/www/certbot
+      - ./docker-compose.yaml:/docker-compose.yaml
     depends_on:
       init:
         condition: service_completed_successfully
@@ -40,6 +39,7 @@ services:
     networks:
       - backtier
     entrypoint: "/nginx_init.sh"
+    env_file: .env
 
   certbot:
     container_name: certbot
@@ -48,18 +48,20 @@ services:
       dockerfile: Dockerfile
     restart: always
     volumes:
-      - ./data/var/www/certbot:/var/www/certbot
-      - ./data/var/www/certbot:/var/log/letsencrypt
-      - ./data/etc/letsencrypt:/etc/letsencrypt
-      - ./data/etc/nginx/conf.d:/etc/nginx/conf.d
-      - ./services/certbot/certbot_init.sh:/certbot_init.sh
+      - ./mount/var/www/certbot:/var/www/certbot
+      - ./mount/var/www/certbot:/var/log/letsencrypt
+      - ./mount/etc/letsencrypt:/etc/letsencrypt
+      - ./mount/etc/nginx/conf.d:/etc/nginx/conf.d
     environment:
       keysize: 4096
       email: ${EMAIL}
       domains: ${DOMAINS}
       staging: ${STAGING}
     depends_on: 
-      - nginx
+      init:
+        condition: service_completed_successfully
+      nginx:
+        condition: service_started
     entrypoint: "/certbot_init.sh"
 
   pg-admin:
@@ -134,6 +136,6 @@ volumes:
 
 networks:
   backtier:
-  #  driver: bridge
-  #  driver_opts:
-  #    com.docker.network.driver.mtu: 1450
+   driver: bridge
+   driver_opts:
+     com.docker.network.driver.mtu: 1450

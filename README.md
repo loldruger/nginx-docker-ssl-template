@@ -12,10 +12,17 @@ you can easily replace backend system, currently running on Rust axum, with what
 
 .env:
 ```python
+#services
+SERVICES="
+    api: api.example.com:8080,
+    web: example.com:8081,
+    pga: pga.example.com:9090
+"
+
 #certbot
 STAGING="true" #if you are testing, keep it true
 EMAIL="example@example.org"
-DOMAINS="project-1.com" #project-1.com project-2.com...
+DOMAINS="" #filled out when executing ./deploy.sh
 
 #postgres && pg-admin
 POSTGRES_DATABASE="example_db"
@@ -25,18 +32,11 @@ PGADMIN_DEFAULT_EMAIL="example@example.org"
 PGADMIN_DEFAULT_PASSWORD="example_password"
 ```
 
- 3. Generate nginx configuration template files for each `DOMAINS` by executing
+ 3. Deploy your services with this command
  ```
- $ sh init.sh
+ $ sh deploy.sh
  ```
-Which yields `domain.conf.template` files into `/data/etc/nginx/conf.d`
 
- 4. Modify the nginx configuration template files to what you need. And rename them without the `.template` extension.
-
-and finally, Enter this command:
-```
-$ sh deploy.sh
-```
 on your terminal. it will be all automatically set up. And it now supports multiple domains certification!
 
 if you get successful result but cannot access through your domain,  `$ docker compose restart nginx` to reload `nginx service`
