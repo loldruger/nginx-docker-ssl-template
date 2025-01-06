@@ -1,28 +1,27 @@
-# Introduction
+# An Easy-Deployable Web Backend Server Infrastructure Kit
+## Introduction
 
-this template runs on `tokio`, `sqlx`, `axum` in `Rust programming language` with `nginx`, `postgres` and `redis`, over `Let's Encrypt SSL`
-
-you can easily replace backend system, currently running on Rust axum, with whatever you want!
+This template provides a ready-to-use foundation for your web backend, featuring `Nginx`, `PostgreSQL`, and `PGAdmin`, all secured with `Let's Encrypt SSL`. It simplifies the deployment process and allows you to focus on building your application.
 
 # Getting Started
 
-## Prerequisite
+## Prerequisite:
  1. You need to setup DNS config
  2. Set .env file to yours
 
 .env:
-```python
+```bash
 #services
 SERVICES="
-    api: api.example.com:8080,
-    web: example.com:8081,
-    pga: pga.example.com:9090
+    api: api.example.org:8080,
+    web: example.org:8081,
+    pga: pga.example.org:9090
 "
 
 #certbot
-STAGING="true" #if you are testing, keep it true
+STAGING="true" #Set it to "true" for testing
 EMAIL="example@example.org"
-DOMAINS="" #filled out when executing ./deploy.sh
+DOMAINS="" #automatically filled out when executing ./deploy.sh
 
 #postgres && pg-admin
 POSTGRES_DATABASE="example_db"
@@ -32,17 +31,24 @@ PGADMIN_DEFAULT_EMAIL="example@example.org"
 PGADMIN_DEFAULT_PASSWORD="example_password"
 ```
 
- 3. Deploy your services with this one command input
+ 3. **Deploy your services:**
  ```
  $ sh deploy.sh
  ```
 
-on your terminal. it will automatically set all the things up.
+on your terminal. it will automatically set up everything.
 
-if you get successful result but cannot access through your domain,  `$ docker compose restart nginx` to reload `nginx service`
+if you get successful result but cannot access through your domain, `$ docker compose restart nginx` to reload `nginx service`
 
-# TroubleShooting
- 1. If you get an error at certbot phase, like `Certbot failed to authenticate some domains... Fetching <url> Connection refused`, Check if the file `/data/etc/letsencrypt/ssl-dhparams.pem` is 0 Bytes.
-if so, clean up your docker network and data files, then follow the second step of fitting MTU length.
+# Troubleshooting
+ 1. If you encounter an error during the certbot phase, such as `Certbot failed to authenticate some domains... Fetching <url> Connection refused`, Verify that the file `/data/etc/letsencrypt/ssl-dhparams.pem` is not empty.
+if it is, clean up your docker network and data files, then proceed with the second step below.
 
- 2. If you get troubles on internet connection in container, uncomment network set up bottom of the `docker-compose.yaml` file to fit the MTU length 1450 or else. 
+ 2. If you get troubles on internet connection in container, uncomment the network configurations at the end of the `docker-compose.yaml` file, which set the MTU length to 1450 or another value. 
+
+# Roadmap
+ 1. Support multi-repo configuration.
+ 2. Adopt `Ansible` to configure multiple host servers.
+ 3. Adopt `Jenkins` to build CI/CD pipeline
+ 4. Improve error handling and logging.
+ 
