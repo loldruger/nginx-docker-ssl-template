@@ -20,8 +20,12 @@ for service in "${service_list[@]}"; do
     fi
 done
 
+DOMAINS=$(echo "$DOMAINS" | tr ',' '\n' | sort | uniq | paste -sd "," -)
+
 if grep -q '^DOMAINS=' "$ENV_FILE"; then
     sed -i "s/^DOMAINS=.*/DOMAINS=\"$DOMAINS\"/" "$ENV_FILE"
+else
+    echo "DOMAINS=\"$DOMAINS\"" >> "$ENV_FILE"
 fi
 
 docker compose up 

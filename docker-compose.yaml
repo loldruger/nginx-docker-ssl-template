@@ -68,7 +68,6 @@ services:
     container_name: pgadmin4
     image: dpage/pgadmin4
     environment:
-      VIRTUAL_HOST: ${PGADMIN_DOMAIN}
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
       PGADMIN_LISTEN_PORT: 9090
@@ -105,7 +104,6 @@ services:
       context: ./services/backend_api
       dockerfile: Dockerfile
     environment:
-      VIRTUAL_HOST: ${API_DOMAIN}
       DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@postgres/${POSTGRES_DATABASE}
       REDIS_URL: redis://redis
     volumes:
@@ -121,8 +119,6 @@ services:
     build:
       context: ./services/backend_web
       dockerfile: Dockerfile
-    environment:
-      VIRTUAL_HOST: ${WEB_DOMAIN}
     volumes:
       - ./services/backend_web:/home/work
       - rust_data:/root/.cargo/registry

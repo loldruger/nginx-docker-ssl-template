@@ -1,6 +1,6 @@
 #!/bin/sh
 
-domains="$1"
+domain="$1"
 service="$2"
 
 cat << EOF > "./etc/nginx/conf.d/${domain}.conf"

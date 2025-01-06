@@ -32,12 +32,12 @@ PGADMIN_DEFAULT_EMAIL="example@example.org"
 PGADMIN_DEFAULT_PASSWORD="example_password"
 ```
 
- 3. Deploy your services with this command
+ 3. Deploy your services with this one command input
  ```
  $ sh deploy.sh
  ```
 
-on your terminal. it will be all automatically set up. And it now supports multiple domains certification!
+on your terminal. it will automatically set all the things up.
 
 if you get successful result but cannot access through your domain,  `$ docker compose restart nginx` to reload `nginx service`
 
