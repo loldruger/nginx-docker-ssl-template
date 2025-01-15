@@ -1,0 +1,29 @@
+services: 
+  - name: "api"
+    port: 8080
+    domain:
+      - "api.example.org"
+
+  - name: "web"
+    port: 8081
+    domain:
+      - "example.org"
+      - "www.example.org"
+
+  - name: "pga"
+    port: 9090
+    domain:
+      - "pga.example.org"
+
+config:
+  certbot:
+    staging: true
+    email: "example@example.org"
+    
+  postgres:
+    database: "postgres"
+    password: "password"
+  
+  pgadmin:
+    email: "example@example.org"
+    password: "password"

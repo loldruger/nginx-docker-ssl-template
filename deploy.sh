@@ -4,12 +4,10 @@ ENV_FILE=".env"
 DOMAINS=""
 
 services=$(grep '^SERVICES=' "$ENV_FILE" | cut -d'=' -f2- | tr -d '"')
-ifs=',' read -ra service_list <<< "$services"
 
-for service in "${service_list[@]}"; do
+echo "$services" | tr ',' '\n' | while read service; do
     service_info=$(echo "$service" | xargs)
-    ifs=':' read -r service domain port <<< "$service"
-    domain=$(echo "$domain" | xargs)
+    domain=$(echo "$service_info" | cut -d':' -f2 | xargs)
 
     if [ -n "$domain" ]; then
         if [ -z "$DOMAINS" ]; then

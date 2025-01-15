@@ -96,34 +96,34 @@ services:
     networks:
       - backtier
 
-  backend_api:
-    container_name: backend_api
-    ports:
-      - "8080:8080"
-    build:
-      context: ./services/backend_api
-      dockerfile: Dockerfile
-    environment:
-      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@postgres/${POSTGRES_DATABASE}
-      REDIS_URL: redis://redis
-    volumes:
-      - ./services/backend_api:/home/work
-      - rust_data:/root/.cargo/registry
-    networks:
-      - backtier
+  # backend_api:
+  #   container_name: backend_api
+  #   ports:
+  #     - "8080:8080"
+  #   build:
+  #     context: ./services/backend_api
+  #     dockerfile: Dockerfile
+  #   environment:
+  #     DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@postgres/${POSTGRES_DATABASE}
+  #     REDIS_URL: redis://redis
+  #   volumes:
+  #     - ./services/backend_api:/home/work
+  #     - rust_data:/root/.cargo/registry
+  #   networks:
+  #     - backtier
 
-  backend_web:
-    container_name: backend_web
-    ports:
-      - "8081:8081"
-    build:
-      context: ./services/backend_web
-      dockerfile: Dockerfile
-    volumes:
-      - ./services/backend_web:/home/work
-      - rust_data:/root/.cargo/registry
-    networks:
-      - backtier
+  # backend_web:
+  #   container_name: backend_web
+  #   ports:
+  #     - "8081:8081"
+  #   build:
+  #     context: ./services/backend_web
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./services/backend_web:/home/work
+  #     - rust_data:/root/.cargo/registry
+  #   networks:
+  #     - backtier
 
 volumes:
   pgadmin_data:

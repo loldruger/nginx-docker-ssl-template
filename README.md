@@ -31,6 +31,13 @@ PGADMIN_DEFAULT_EMAIL="example@example.org"
 PGADMIN_DEFAULT_PASSWORD="example_password"
 ```
 
+```sh
+curl -sSL https://install.python-poetry.org | python3 -
+export PATH="/root/.local/bin:$PATH"
+
+poetry run python x.py
+```
+
  3. **Deploy your services:**
  ```
  $ sh deploy.sh

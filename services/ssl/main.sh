@@ -28,7 +28,7 @@ fi
 domains=$(sed -n '/#domains/,/#domains_end/p' .env | sed 's/^.*= *"\(.*\)"$/\1/')
 
 MAX_ATTEMPTS=60
-
+               
 for domain in $domains; do
   ./nginx_http_config.sh "$domain"
 
